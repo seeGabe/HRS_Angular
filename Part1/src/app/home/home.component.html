@@ -2,8 +2,10 @@
 <p>You're logged in to your HRS App!!</p>
 <h3>All registered users:</h3>
 <ul>
-  <li *ngFor="let user of users">
-    {{user.username}} ({{user.firstName}} {{user.lastName}})
-    - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
-  </li>
+	<li *ngFor="let user of users">
+		{{user.username}} ({{user.firstName}} {{user.lastName}})
+		- <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
+		- <a (click)="editUser(user)" class="text-danger">Edit</a>
+	</li>
 </ul>
+<app-edit *ngIf="selectedUser" [(user)]="selectedUser" (finishedEditing)="updateUsers($event)"></app-edit>

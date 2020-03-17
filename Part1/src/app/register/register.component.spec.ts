@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterComponent } from './register.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {RouterTestingModule} from '@angular/router/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -11,7 +11,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ],
+      declarations: [RegisterComponent],
       imports: [
         FormsModule,
         HttpClientModule,
@@ -19,7 +19,7 @@ describe('RegisterComponent', () => {
         RouterTestingModule,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -28,7 +28,28 @@ describe('RegisterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('exists', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should error on empty required field', () => {
+    let username = component.registerForm.controls.username;
+    username.setValue('')
+    expect(username.hasError('required')).toBeTruthy();
+  });
+
+  it('should call submit on button click', () => {
+    spyOn(component, 'onSubmit');
+    let el = fixture.debugElement.nativeElement;
+    el.querySelector('button').click();
+    expect(component.onSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should be invalid when password is less than 6 chars', () => {
+    component.registerForm.controls.firstName.setValue('test');
+    component.registerForm.controls.lastName.setValue('test');
+    component.registerForm.controls.username.setValue('tester');
+    component.registerForm.controls.password.setValue('12345');
+    expect(component.registerForm.valid).toBeFalsy();
   });
 });
