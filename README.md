@@ -1,1 +1,1 @@
-# HRS_Angular
+# Angular Coding Challenge
